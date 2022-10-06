@@ -9,5 +9,5 @@ Description: Functions for obtaining the density, random deviates
              and maximum likelihood estimates of the Poisson lognormal 
              distribution and the bivariate Poisson lognormal distribution.
 License: GPL-3
-Encoding: latin1
+Encoding: utf-8
 NeedsCompilation: yes

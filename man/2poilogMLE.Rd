@@ -56,7 +56,7 @@ poilogMLE(n, startVals = c(mu=1, sig=2),
 Bulmer, M. G. 1974. On fitting the Poisson lognormal distribution to species abundance data. Biometrics \bold{30}, 651-660.\cr
 Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist \bold{160}, 60-73.}
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@bio.ntnu.no}, Steinar Engen}
+\author{ Vidar \enc{GrÃ¸tan}{Grotan} \email{vidar.grotan@ntnu.no}, Steinar Engen}
 
 \seealso{ \code{\link{optim}}, \code{\link{dpoilog}}, \code{\link{rpoilog}}  }
 \examples{
@@ -78,4 +78,4 @@ est <- poilogMLE(n,startVals=c(2,3),
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ distribution }
-\encoding{latin1}
+\encoding{utf-8}

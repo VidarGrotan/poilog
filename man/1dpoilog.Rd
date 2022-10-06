@@ -28,7 +28,7 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
   from a community of several species). 
   
   Under the assumption of random sampling, the number of individuals sampled from a given 
-  species with abundance \emph{y}, say \emph{N}, is Poisson distributed with mean \eqn{\code{nu}\,\emph{y}}{\code{nu}\emph{y}} 
+  species with abundance \emph{y}, say \emph{N}, is Poisson distributed with mean \eqn{\code{nu}\,y}{\code{nu}\emph{y}} 
   where the parameter \code{nu} expresses the sampling intensity. If ln \emph{y} is normally distributed 
   with mean \code{mu} and standard deviaton \code{sig} among species, then the vector of individuals sampled 
   from all \code{S} species then constitutes a sample from the Poisson lognormal distribution
@@ -59,7 +59,7 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
 \references{ Engen, S., R. Lande, T. Walla & P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist 160: 60-73.
  }
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@bio.ntnu.no} and Steinar Engen   }
+\author{ Vidar \enc{GrÃ¸tan}{Grotan} \email{vidar.grotan@ntnu.no} and Steinar Engen   }
 
 \seealso{\code{\link{poilogMLE}} for ML estimation}
 \examples{
@@ -87,4 +87,4 @@ hist(replicate(1000,sum(rpoilog(S=30,mu=0,sig=3,nu=0.7))))
 
 }
 \keyword{ distribution }
-\encoding{latin1}
+\encoding{utf-8}

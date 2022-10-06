@@ -62,7 +62,7 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
 }
 \references{ Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist \bold{160}, 60-73. }
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@bio.ntnu.no} and Steinar Engen   }
+\author{ Vidar \enc{GrÃ¸tan}{Grotan} \email{vidar.grotan@ntnu.no} and Steinar Engen   }
 
 \seealso{ \code{\link{bipoilogMLE}} for maximum likelihood estimation }
 \examples{
@@ -100,4 +100,4 @@ hist(replicate(1000,sum(rbipoilog(S=50,mu1=0,mu2=0,sig1=1,sig2=2,rho=0.7))),
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ distribution }
-\encoding{latin1}
+\encoding{utf-8}
