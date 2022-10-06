@@ -92,7 +92,7 @@
       
      .C('poilog2',n1=as.integer(n1),n2=as.integer(n2),mu1=as.double(mu1),mu2=as.double(mu2),
         sig1=as.double(sig1^2),sig2=as.double(sig2^2),rho=as.double(rho),nrN=as.integer(length(n1)),
-        val=double(length(n1)))$val
+        val=double(length(n1)), PACKAGE = "poilog")$val
     }
    
    dpoilog <- function(n,mu,sig){
@@ -101,7 +101,7 @@
      if (any(n<0)) stop('one or several values of n are negative')
      if (!all(is.finite(c(mu,sig)))) stop('all parameters should be finite')
      if (sig<=0) stop('sig is not larger than 0')
-     .C('poilog1',n=as.integer(n),mu=as.double(mu),sig2=as.double(sig^2),nrN=as.integer(length(n)),val=double(length(n)))$val
+     .C('poilog1',n=as.integer(n),mu=as.double(mu),sig2=as.double(sig^2),nrN=as.integer(length(n)),val=double(length(n)), PACKAGE = "poilog")$val
    }
     
    poilogMLE <- function(n,startVals=c(mu=1,sig=2),nboot=0,zTrunc=TRUE,
