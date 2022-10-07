@@ -22,10 +22,10 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
   \item{sig1}{ standard deviation of lognormal distribution in sample 1 }
   \item{sig2}{ standard deviation of lognormal distribution in sample 2 }
   \item{rho}{ correlation among samples }
-  \item{S}{ Total number of species in both communites }
+  \item{S}{ Total number of species in both communities }
   \item{nu1}{ sampling intensity sample 1 }
   \item{nu2}{ sampling intensity sample 2 }
-  \item{condS}{ logical; if TRUE random deviates are conditonal on S }
+  \item{condS}{ logical; if TRUE random deviates are conditional on S }
   \item{keep0}{ logical; if TRUE species with count 0 in both communities are included in the random deviates }
   
   

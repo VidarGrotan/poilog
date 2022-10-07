@@ -17,7 +17,7 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
   \item{mu}{ mean of lognormal distribution  }
   \item{sig}{ standard deviation of lognormal distribution }
   \item{nu}{ sampling intensity, defaults to 1 }
-  \item{condS}{ logical; if TRUE random deviates are conditonal on S}
+  \item{condS}{ logical; if TRUE random deviates are conditional on S}
   \item{keep0}{ logical; if TRUE species with count 0 are included in the random deviates }
   
 }
@@ -30,7 +30,7 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
   Under the assumption of random sampling, the number of individuals sampled from a given 
   species with abundance \emph{y}, say \emph{N}, is Poisson distributed with mean \eqn{\code{nu}\,y}{\code{nu}\emph{y}} 
   where the parameter \code{nu} expresses the sampling intensity. If ln \emph{y} is normally distributed 
-  with mean \code{mu} and standard deviaton \code{sig} among species, then the vector of individuals sampled 
+  with mean \code{mu} and standard deviation \code{sig} among species, then the vector of individuals sampled 
   from all \code{S} species then constitutes a sample from the Poisson lognormal distribution
   with parameters (\code{mu} + ln \code{nu}, \code{sig}), where \code{mu} and \code{sig} 
   are the mean and standard deviaton of the log abundances. For \code{nu} = 1, this is the Poisson 

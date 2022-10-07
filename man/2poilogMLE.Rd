@@ -48,7 +48,7 @@ poilogMLE(n, startVals = c(mu=1, sig=2),
   \item{par }{Maximum likelihood estimates of the parameters}
   \item{p }{Approximate fraction of species revealed by the sample}
   \item{logLval }{Log likelihood of the data given the estimated parameters}
-  \item{gof }{Godness of fit measure obtained by checking the rank of logLval against logLval's obtained 
+  \item{gof }{Goodness of fit measure obtained by checking the rank of logLval against logLval's obtained 
                 during the bootstrap procedure, (gof<0.05) or (gof>0.95) indicates lack of fit}
   \item{boot }{A data frame containing the bootstrap replicates of parameters and logLval}
 }
