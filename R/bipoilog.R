@@ -101,7 +101,23 @@
      if (any(n<0)) stop('one or several values of n are negative')
      if (!all(is.finite(c(mu,sig)))) stop('all parameters should be finite')
      if (sig<=0) stop('sig is not larger than 0')
-     .C('poilog1',n=as.integer(n),mu=as.double(mu),sig2=as.double(sig^2),nrN=as.integer(length(n)),val=double(length(n)), PACKAGE = "poilog")$val
+     spos <- which(n<8)
+     lpos <- which(n>=8)
+     val <- rep(NA, length(n))
+     f <- function(x, N) dnorm(x, 0, 1) * dpois(N, exp(x*sig + mu))
+     if (length(spos)>0){
+       vali <- sapply(n[spos], function(n) integrate(f, lower=-Inf, upper=Inf, N=n)$value)
+       valp <- .C("poilog1", n = as.integer(n[spos]), mu = as.double(mu),
+                  sig2 = as.double(sig^2), nrN = as.integer(length(n[spos])),
+                  val = double(length(n[spos])), PACKAGE = "poilog")$val
+       val[spos] <- apply(cbind(vali,valp),1,max)
+     }
+     if (length(lpos)>0){
+       val[lpos] <- .C("poilog1", n = as.integer(n[lpos]), mu = as.double(mu),
+                       sig2 = as.double(sig^2), nrN = as.integer(length(n[lpos])),
+                       val = double(length(n[lpos])), PACKAGE = "poilog")$val
+     }
+     val
    }
     
    poilogMLE <- function(n,startVals=c(mu=1,sig=2),nboot=0,zTrunc=TRUE,
