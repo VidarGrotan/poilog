@@ -59,7 +59,7 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
 \references{ Engen, S., R. Lande, T. Walla & P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist 160: 60-73.
  }
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@ntnu.no} and Steinar Engen   }
+\author{ Vidar Grotan \email{vidar.grotan@ntnu.no} and Steinar Engen   }
 
 \seealso{\code{\link{poilogMLE}} for ML estimation}
 \examples{
@@ -87,4 +87,3 @@ hist(replicate(1000,sum(rpoilog(S=30,mu=0,sig=3,nu=0.7))))
 
 }
 \keyword{ distribution }
-\encoding{utf-8}

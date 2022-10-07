@@ -28,10 +28,10 @@ parameters for the bivariate Poisson lognormal distribution.
 
 }
 \author{
-Vidar \enc{Grøtan}{Grotan} and Steinar Engen
+Vidar Grotan and Steinar Engen
 
 Maintainer: 
-Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@ntnu.no}
+Vidar Grotan \email{vidar.grotan@ntnu.no}
 }
 \references{
 Bulmer, M. G. 1974. On fitting the Poisson lognormal distribution to species abundance data. Biometrics \bold{30}, 651-660.\cr
@@ -40,4 +40,3 @@ Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structu
 }
 
 \keyword{ package }
-\encoding{utf-8}

@@ -3,11 +3,10 @@ Type: Package
 Title: Poisson Lognormal and Bivariate Poisson Lognormal Distribution
 Version: 0.4.2
 Date: 2022-10-07
-Author: Vidar Grøtan and Steinar Engen
-Maintainer: Vidar Grøtan <vidar.grotan@ntnu.no>
+Author: Vidar Grotan and Steinar Engen
+Maintainer: Vidar Grotan <vidar.grotan@ntnu.no>
 Description: Functions for obtaining the density, random deviates 
              and maximum likelihood estimates of the Poisson lognormal 
              distribution and the bivariate Poisson lognormal distribution.
 License: GPL-3
-Encoding: utf-8
 NeedsCompilation: yes

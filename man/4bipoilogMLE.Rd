@@ -60,7 +60,7 @@ bipoilogMLE(n1, n2 = NULL,
 \references{ 
 Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist \bold{160}, 60-73.}
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@ntnu.no}, Steinar Engen   }
+\author{ Vidar Grotan \email{vidar.grotan@ntnu.no}, Steinar Engen   }
 
 \seealso{ \code{\link{optim}}, \code{\link{dbipoilog}}, \code{\link{rbipoilog}}  }
 \examples{
@@ -89,4 +89,3 @@ est <- bipoilogMLE(xy)
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ distribution }
-\encoding{utf-8}
