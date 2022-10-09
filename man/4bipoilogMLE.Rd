@@ -71,9 +71,6 @@ xy  <- rbipoilog(S=30,mu1=1,mu2=1,sig1=2,sig2=2,rho=0.5)
 ## obtain estimates of parameters
 est <- bipoilogMLE(xy)
 
-## similar, but now with bootstrapping 
-\dontrun{est <- bipoilogMLE(xy,nboot=10)}
-
 ## change start values and request tracing information 
 ## from optimization procedure
 est <- bipoilogMLE(xy,startVals=c(2,2,4,4,0.3),

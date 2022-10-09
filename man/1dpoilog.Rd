@@ -33,7 +33,7 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
   with mean \code{mu} and standard deviation \code{sig} among species, then the vector of individuals sampled 
   from all \code{S} species then constitutes a sample from the Poisson lognormal distribution
   with parameters (\code{mu} + ln \code{nu}, \code{sig}), where \code{mu} and \code{sig} 
-  are the mean and standard deviaton of the log abundances. For \code{nu} = 1, this is the Poisson 
+  are the mean and standard deviation of the log abundances. For \code{nu} = 1, this is the Poisson 
   lognormal distribution with parameters (\code{mu},\code{sig}) which may be written in the form
     
   \deqn{P(N=\code{n};\code{mu},\code{sig}) = q(\code{n};\code{mu},\code{sig}) = \int\limits_{-\infty}^{\infty} g_\code{n}(\code{mu},\code{sig},u)\phi(u)\;du,}{

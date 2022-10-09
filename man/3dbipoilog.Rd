@@ -39,7 +39,7 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
  
  Consider two communities jointly and assume that the log abundances among species have the binormal distribution
  with parameters (\code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}). If sampling intensities are 
- \code{nu1} = \code{nu2} = 1, samples from the communites will have the bivariate Poisson lognormal distribution
+ \code{nu1} = \code{nu2} = 1, samples from the communities will have the bivariate Poisson lognormal distribution
  
  \deqn{ P(N_1 = \code{n1}, N_2 = \code{n2}; \;\code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}) = }{
         P(N1 = \code{n1}, N2 = \code{n2}; \code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}) = }

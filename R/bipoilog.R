@@ -167,7 +167,7 @@
           nr <- rep(NA,length(un))
           for (i in 1:length(un)){ nr[i] <- sum(sim%in%un[i]) }
           bfit <- try(optim(bStartVals,lnL,nr=nr,control=control,method=method),silent=TRUE)
-          if (class(bfit)!='try-error'){
+          if (inherits(bfit,'try-error')){
             count <- count+1
             bMat[count,] <- c(bfit$par[1],exp(bfit$par[2]),-bfit$value)
             if (count%in%kat) cat('   boot',count,'of',nboot,'\n')
@@ -257,7 +257,7 @@
           nr <- rep(NA,nrow(un))
           for (i in 1:nrow(un)){ nr[i] <- sum(apply(sim,1,function(x) x[1]==un[i,1] & x[2]==un[i,2])) }
           bfit <- try(optim(bStartVals,lnL,nr=nr,control=control,method=method),silent=TRUE)
-          if (class(bfit)!='try-error'){
+          if (inherits(bfit,'try-error')){
             count <- count+1
             bMat[count,] <- c(bfit$par[1],bfit$par[2],exp(bfit$par[3]),exp(bfit$par[4]),invRhoTrans(bfit$par[5]),-bfit$value)
             cat('   boot',count,'of',nboot,': ',c(bfit$par[1],bfit$par[2],exp(bfit$par[3]),
