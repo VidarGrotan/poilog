@@ -106,7 +106,16 @@
      val <- rep(NA, length(n))
      f <- function(x, N) dnorm(x, 0, 1) * dpois(N, exp(x*sig + mu))
      if (length(spos)>0){
-       vali <- sapply(n[spos], function(n) integrate(f, lower=-Inf, upper=Inf, N=n)$value)
+       vali <- try(sapply(n[spos], function(n) integrate(f, lower=-Inf, upper=Inf, N=n)$value), silent=TRUE)
+       if (inherits(vali, "try-error")){
+         vali <- rep(1e-300, length(spos))
+         for (i in 1:length(spos)){
+           tmp <- try(integrate(f, lower=-Inf, upper=Inf, N=n[i])$value, silent=TRUE)
+           if (!inherits(tmp, "try-error")){
+             vali[i] <- tmp
+           }
+         }
+       }
        valp <- .C("poilog1", n = as.integer(n[spos]), mu = as.double(mu),
                   sig2 = as.double(sig^2), nrN = as.integer(length(n[spos])),
                   val = double(length(n[spos])), PACKAGE = "poilog")$val
