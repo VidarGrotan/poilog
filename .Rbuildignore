@@ -2,3 +2,4 @@
 ^\.gitignore$
 ^tests/testthat/testthat-problems\.rds$
 ^tests/reference$
+^\.github$
