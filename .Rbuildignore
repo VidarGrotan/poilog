@@ -1,3 +1,4 @@
+^cran-comments\.md$
 ^\.gitignore$
 ^tests/testthat/testthat-problems\.rds$
 ^tests/reference$
