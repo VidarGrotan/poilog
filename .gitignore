@@ -1,0 +1,6 @@
+src/*.o
+src/*.so
+src/*.dll
+tests/testthat/testthat-problems.rds
+.Rproj.user/
+.Rhistory

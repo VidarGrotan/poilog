@@ -1,68 +1,126 @@
+   # one finite number
+   check_param <- function(x, name){
+      # a single NA (logical NA is not numeric) is a missing value, not a vector
+      if (length(x)==1 && is.na(x)) stop(paste(name,'must be finite'))
+      if (!is.numeric(x) || length(x)!=1)
+        stop(paste(name,'must be a single number (vectorization of parameters is not implemented)'))
+      if (!is.finite(x)) stop(paste(name,'must be finite'))
+   }
+
+   check_flag <- function(x, name){
+      if (!is.logical(x) || length(x)!=1 || is.na(x)) stop(paste(name,'should be TRUE or FALSE'))
+   }
+
+   check_size <- function(S){
+      check_param(S, 'S')
+      if (S<1) stop('S is not positive')
+      if (S!=round(S)) stop('S is not an integer')
+   }
+
+   # Conditional simulation (condS = TRUE) draws batches until S positive counts are
+   # found. The first batch has 2 S draws. Each further batch has 2 / p times n draws,
+   # where p is the share of positive counts in the previous batch (1000 times n if it
+   # had none) and n is S minus the number of positive counts in the previous batch
+   # alone, not in all batches so far, so it can draw more than needed. In total at most
+   # MAX_DRAWS(S) values are drawn; a request that needs more stops with an error
+   # before the batch that would exceed it is drawn. This bounds the memory a batch can
+   # take: with rare positive counts one batch can otherwise hold billions of draws.
+   # The S term keeps every request with P(N > 0) above about 2% working for any S;
+   # 2e7 draws take about 0.5 GB (univariate) or 1.3 GB (bivariate) at the peak.
+   MAX_DRAWS <- function(S) max(2e7, 100*S)
+
+   # Poisson counts with intensities lam. An intensity above the largest double
+   # (about 1.8e308, a log intensity above 709.78) is Inf, for which rpois returns NA
+   # with only a warning; that NA would be returned as a count, and with condS = TRUE
+   # counted as a positive one. Checking the intensities before the draws uses no random numbers, so seeded
+   # draws are unchanged wherever they are finite.
+   poisson_draws <- function(nr, lam){
+      if (any(lam==Inf))
+        stop(paste('a Poisson intensity exp(mu + log(nu) + sig u) of the simulation exceeds',
+                   'the largest double (log intensity above 709.78): mu, sig or nu are too large'))
+      rpois(nr, lam)
+   }
+
+
+   # ---------------------------------------------------------------- random deviates
 
     rbipoilog <- function(S,mu1,mu2,sig1,sig2,rho,nu1=1,nu2=1,condS=FALSE,keep0=FALSE){
-       
+
        sim <- function(nr){
          lamx <- rnorm(nr)
          lamy <- rho*lamx+sqrt(1-rho^2)*rnorm(nr)
-         x <- rpois(nr,exp(sig1*lamx+mu1+log(nu1)))
-         y <- rpois(nr,exp(sig2*lamy+mu2+log(nu2)))
-         sel <- x+y 
+         x <- poisson_draws(nr,exp(sig1*lamx+mu1+log(nu1)))
+         y <- poisson_draws(nr,exp(sig2*lamy+mu2+log(nu2)))
+         sel <- as.double(x)+y   # in double: integer x + y overflows near 2^31
          xy <- cbind(x,y)
          if (keep0) xy <- cbind(x,y) else xy <- cbind(x[sel>0],y[sel>0])
          return(xy)
        }
-      
-       
-       if (S<1) stop('S is not positive')
-       if (!is.finite(S)) stop('S is not finite')
-       if ((S/trunc(S))!=1) stop('S is not an integer')
+
+       check_size(S)
+       for (p in c('mu1','mu2','sig1','sig2','rho','nu1','nu2')) check_param(get(p), p)
        if (sig1<0) stop('sig1 is not positive')
        if (sig2<0) stop('sig2 is not positive')
        if (nu1<0)    stop('nu1 is not positive')
        if (nu2<0)    stop('nu2 is not positive')
        if (-1>rho | rho>1) stop('rho must be in the range -1 to 1')
-       if (!is.logical(keep0)) stop('keep0 should be TRUE or FALSE')
-       if (length(c(mu1,mu2,sig1,sig2,rho,nu1,nu2))>7) stop('duplicate values of some parameters')
-       
+       check_flag(condS, 'condS')
+       check_flag(keep0, 'keep0')
+       if (condS && !keep0 && nu1==0 && nu2==0) stop('with nu1 = nu2 = 0 all counts are 0, so condS = TRUE with keep0 = FALSE is impossible')
+
        if (condS){
          simMat <- matrix(NA,0,2)
          fac <- 2
          nr  <- S
+         drawn <- 0
          while (nrow(simMat)<S){
+           drawn <- drawn+nr*fac
+           if (drawn>MAX_DRAWS(S))
+             stop(paste('P(N1 + N2 > 0) is too small to simulate S positive counts (condS = TRUE):',
+                        'more than', MAX_DRAWS(S), 'draws would be needed'))
            simvals <- sim(nr*fac)
            simMat  <- rbind(simMat,simvals)
            fac     <- (1/(nrow(simvals)/(nr*fac)))*2
            fac     <- ifelse(is.finite(fac),fac,1000)
            nr      <- S-nrow(simvals)
          }
-         simMat <- simMat[1:S,]
+         simMat <- simMat[1:S,,drop=FALSE]
        }
-       
+
        else simMat <- sim(S)
        return(simMat)
     }
-    
-       
+
+
     rpoilog <- function(S,mu,sig,nu=1,condS=FALSE,keep0=FALSE){
-       
+
        sim <- function(nr){
          lamx <- rnorm(nr)
-         x <- rpois(nr,exp(sig*lamx+mu+log(nu)))
+         x <- poisson_draws(nr,exp(sig*lamx+mu+log(nu)))
          if (!keep0) x <- x[x>0]
          return(x)
        }
-       
-       if (S<1) stop('S is not positive')
-       if (!is.finite(S)) stop('S is not finite')
-       if ((S/trunc(S))!=1) stop('S is not an integer')
+
+       check_size(S)
+       check_param(mu, 'mu')
+       check_param(sig, 'sig')
+       check_param(nu, 'nu')
        if (sig<0) stop('sig is not positive')
        if (nu<0)    stop('nu is not positive')
-       
+       check_flag(condS, 'condS')
+       check_flag(keep0, 'keep0')
+       if (condS && !keep0 && nu==0) stop('with nu = 0 all counts are 0, so condS = TRUE with keep0 = FALSE is impossible')
+
        if (condS){
          simVec <- vector('numeric',0)
          fac <- 2
          nr  <- S
+         drawn <- 0
          while (length(simVec)<S){
+           drawn <- drawn+nr*fac
+           if (drawn>MAX_DRAWS(S))
+             stop(paste('P(N > 0) is too small to simulate S positive counts (condS = TRUE):',
+                        'more than', MAX_DRAWS(S), 'draws would be needed'))
            simvals <- sim(nr*fac)
            simVec  <- c(simVec,simvals)
            fac     <- (1/(length(simvals)/(nr*fac)))*2
@@ -71,7 +129,7 @@
          }
          simVec <- simVec[1:S]
        }
-       
+
        else simVec <- sim(S)
        return(simVec)
     }

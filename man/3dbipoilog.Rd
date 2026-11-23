@@ -55,6 +55,15 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
  
  \deqn{\frac{q(\code{n1},\code{n2};\;\code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho})}{1-q(0,0;\;\code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho})}}{
        q(\code{n1},\code{n2}; \code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}) / (1 - q(0,0; \code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}))}
+
+ \code{rbipoilog} does not use the integration and accepts any \code{sig1, sig2 >= 0}
+ for which the Poisson intensities it draws stay below the largest double (a log
+ intensity below 709.78); otherwise it stops with an error.
+ With \code{condS = TRUE} and \code{keep0 = FALSE}, \code{rbipoilog} stops with an
+ error when positive counts are impossible (\code{nu1 = nu2 = 0}) or too rare to be
+ found: when the simulation would draw more than \code{max(2e7, 100*S)} pairs.
+ With \code{keep0 = TRUE} it returns \code{S} pairs, zeros included (all zeros
+ when \code{nu1 = nu2 = 0}).
        }
 \value{
  \command{dbipoilog} returns the density\cr

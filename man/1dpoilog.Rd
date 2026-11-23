@@ -51,6 +51,17 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
     
    \deqn{\frac{q(\code{n};\code{mu},\code{sig})}{1-q(0;\code{mu},\code{sig})}}{
           q(\code{n}; \code{mu},\code{sig})/(1 - q(0; \code{mu},\code{sig}))}
+
+  \code{rpoilog} does not use the integration and accepts any \code{sig >= 0}
+  for which the Poisson intensities it draws stay below the largest double (a log
+  intensity \code{mu} + ln \code{nu} + \code{sig} \emph{u} below 709.78); otherwise it
+  stops with an error.
+  With \code{condS = TRUE} and \code{keep0 = FALSE}, \code{rpoilog} draws until
+  \code{S} positive counts are found, and stops with an error when this is impossible
+  (\code{nu = 0}) or when positive counts are too rare to be found: when the
+  simulation would draw more than \code{max(2e7, 100*S)} values. With
+  \code{keep0 = TRUE} it returns \code{S} counts, zeros included (all zeros when
+  \code{nu = 0}).
 }
 \value{
   \command{dpoilog} returns the density\cr    
