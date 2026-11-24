@@ -77,14 +77,14 @@ listed below.
   same data, and less than 1% at higher `mu`.
 * In 0.4.2 and 0.4.2.1 the bootstrap in `poilogMLE()` and `bipoilogMLE()`
   never finished, so it gave no results rather than wrong ones.
-* Rarely relevant for real data:
+* Edge cases (rarely relevant for real data):
   * `dbipoilog()` was too low for very unequal counts at high correlation
     (35% too low for counts 0 and 500 at `rho = 0.95`), and failed at
     `rho = 1` or `-1`.
   * `bipoilogMLE()` kept rho between -0.9999 and 0.9999, which mattered only
     when the maximum lay beyond that limit.
-  * Fits started from rho close to 1 or -1 could end at a point that is not a
-    maximum.
+  * Fits started from rho beyond -0.9999 or 0.9999 (for example 0.99995)
+    could end at a point that is not a maximum.
   * The zero-truncated `poilogMLE()` overstated the log-likelihood where q(0)
     is close to 1 (around `sig = 25`), which could draw a fit there.
 
