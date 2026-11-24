@@ -246,6 +246,10 @@ test_that("bipoilogMLE accepts a two-column matrix or two vectors", {
   expect_equal(a$par, b$par, tolerance = 1e-8)
   # a matrix as n2 is refused (its columns would otherwise be taken as extra rows)
   expect_error(bipoilogMLE(c(xy[, 1], xy[, 1]), cbind(xy[, 2], xy[, 2])), "n2 must be a vector")
+  # a matrix as n1 together with n2 is refused (n2 would otherwise be ignored)
+  expect_error(bipoilogMLE(xy, xy[, 2]), "n1 is a matrix and n2 is specified")
+  expect_error(bipoilogMLE(xy, startVals = c(1, 1, 0, 2, 0.5)), "start value of sig1")
+  expect_error(bipoilogMLE(xy, startVals = c(1, 1, 2, -1, 0.5)), "start value of sig2")
 })
 
 test_that("the MLE functions reject invalid counts", {
