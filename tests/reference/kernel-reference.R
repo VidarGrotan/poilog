@@ -12,13 +12,13 @@
 source("tests/reference/ref.R")
 show <- function(name, x) cat(sprintf("%s <- c(%s)\n", name, paste(sprintf("%.17g", x), collapse = ", ")))
 
-# log q(n; mu, sig): points where two successive trapezoid levels agree although both
-# are wrong, and points among the least accurate of dense comparisons of the kernel
-# with this reference
+# log q(n; mu, sig): points where two successive trapezoid levels agree before the step
+# resolves the integrand (the kernel needs its resolution test there), and points
+# among the least accurate of dense comparisons of the kernel with this reference
 u <- data.frame(
-  n   = c(0, 0, 0, 0, 0, 1e5),
-  mu  = c(-4.668796983752498, -8.671529730261412, -42.103, -51.96, -48.1, -56.15),
-  sig = c(3, 8, 10, 10, 15, 30))
+  n   = c(0, 1, 0, 0, 0, 1e5),
+  mu  = c(-5.631, -9.63, -6.89, -51.96, -48.1, -56.15),
+  sig = c(2, 2, 2, 10, 15, 30))
 u$lq <- mapply(function(n, mu, sig) ref_lq(n, mu, sig, check = TRUE), u$n, u$mu, u$sig)
 show("q_n", u$n); show("q_mu", u$mu); show("q_sig", u$sig); show("q_ref", u$lq)
 
@@ -42,9 +42,9 @@ show("bipos_ref", ref_lpos2(1, 0.5, 50, 50, 0.5))
 # is 1 to double precision), i.e. -800 + log q(1; 0, 1)
 show("rho1_ref", -800 + ref_lq(1, 0, 1, check = TRUE))
 
-# rho = 1 with a large second count, where the first Newton step of the mode search
-# overflows exp(): q(0, 500) at mu = -5, sig = 2
-show("rho1_500_ref", ref_lq2(0, 500, -5, -5, 2, 2, 1))
+# rho = 1 with a large second count, where a step of the mode search overflows exp():
+# q(0, 500) at mu1 = 0, mu2 = -20, sig = 2
+show("rho1_500_ref", ref_lq2(0, 500, 0, -20, 2, 2, 1))
 
 # the gradient of log q(n; mu, sig), d/dmu = E[n - lambda] and d/dsig = E[(n - lambda) u]
 # under the normalised integrand phi(u) dpois(n, lambda), lambda = exp(mu + sig u), at a

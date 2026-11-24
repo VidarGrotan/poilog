@@ -4,15 +4,17 @@
 
 rel <- function(a, r) abs(a - r) / pmax(1, abs(r))
 
-test_that("log q(0) is accurate where two trapezoid levels can agree by coincidence", {
-  # At the first three points two successive trapezoid levels agree although both are
-  # wrong: a rule that accepted agreement alone would be off by 1.5e-5, 7.1e-3 and
-  # 2.9e-6 relative in q. The others are among the least accurate points of dense
-  # comparisons with the reference.
-  n   <- c(0, 0, 0, 0, 0, 1e5)
-  mu  <- c(-4.668796983752498, -8.671529730261412, -42.103, -51.96, -48.1, -56.15)
-  sig <- c(3, 8, 10, 10, 15, 30)
-  ref <- c(-0.11114796227522628, -0.17299423764768596, -1.9724298526591078e-05,
+test_that("log q is accurate where two trapezoid levels can agree by coincidence", {
+  # At the first three points two successive trapezoid levels agree before the step
+  # resolves the integrand. A rule that accepted agreement alone, without the
+  # resolution test (a) of the stopping rule, would be off there by 2.0e-8, 2.6e-9 and
+  # 2.3e-9 (the error measure above); with (a) they are accurate to 3e-13. So this test
+  # fails if (a) is removed (see the header of the C code). The others are among the
+  # least accurate points of dense comparisons with the reference.
+  n   <- c(0, 1, 0, 0, 0, 1e5)
+  mu  <- c(-5.631, -9.63, -6.89, -51.96, -48.1, -56.15)
+  sig <- c(2, 2, 2, 10, 15, 30)
+  ref <- c(-0.021223526387426972, -7.6512419682254489, -0.006816544828065263,
            -1.8638508636481532e-07, -0.00080146722018181737, -18.376545137676253)
   for (i in seq_along(n))
     expect_lt(rel(dpoilog(n[i], mu[i], sig[i], log = TRUE), ref[i]), 1e-9)
@@ -22,7 +24,9 @@ test_that("the gradient of log q is accurate where it needs the level-agreement 
   # The stopping rule accepts a level only when the step resolves the integrand (a) and
   # two successive levels agree (b). Here (a) alone accepts too early: the gradient is
   # then off by 1e-8 (d/dmu) and 4.5e-8 (d/dsig); with (b) it is accurate to 1e-15. This
-  # test fails if (b) is removed or loosened (see the header of the C code).
+  # test fails if (b) is removed, or if its tolerance TOL1 is loosened to 1e-3; with
+  # TOL1 up to 1e-4 the gradient here stays accurate to 1e-15 (see the header of the C
+  # code).
   r <- .C("poilog1g", n = 3L, mu = -6.4, sig2 = 4, nrN = 1L, val = 0, gr = double(2),
           PACKAGE = "poilog")
   score_ref <- c(1.6046496654837963, 4.7419816903090535)
@@ -70,6 +74,8 @@ test_that("values and gradients of log P(N > 0) are finite at large sig", {
 test_that("rho = 1 with a very negative mu2 gives a finite log probability", {
   # q(0, 1) = exp(-800) int phi(u) e^u exp(-e^u) du to double precision
   expect_lt(rel(dbipoilog(0, 1, 0, -800, 1, 1, 1, log = TRUE), -801.35148288213475), 1e-9)
-  # here the first Newton step of the mode search lands where exp() overflows
-  expect_lt(rel(dbipoilog(0, 500, -5, -5, 2, 2, 1, log = TRUE), -368.22861383561514), 1e-9)
+  # here a step of the mode search lands so far past the mode that exp() overflows; the
+  # search then narrows its bracket and bisects (without that, it stops with "mode
+  # search failed")
+  expect_lt(rel(dbipoilog(0, 500, 0, -20, 2, 2, 1, log = TRUE), -10012.650644221178), 1e-9)
 })
