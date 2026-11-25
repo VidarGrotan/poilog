@@ -11,20 +11,20 @@ team made in 0.4.2.1.
 ## Test environments
 
 * local Windows 11, R 4.4.2
-* win-builder (R-devel) <!-- TODO: run on the final build -->
+* GitHub Actions: macOS (arm64), Windows and Ubuntu with R 4.6.2; Ubuntu with
+  R-devel and with R 4.5.3
+* win-builder (R-devel)
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
 * "checking for future file timestamps ... NOTE: unable to verify current
-  time" appears only locally, where the time server cannot be reached.
-<!-- TODO: confirm on the final build and on win-builder -->
+  time" appears only locally, where the time server cannot be reached. The
+  checks on GitHub Actions and win-builder give no notes.
 
 ## Reverse dependencies
 
-One reverse dependency, sads.
-<!-- TODO: re-run R CMD check of sads 0.6.5 against the final build, and
-inform the sads maintainers, before submitting -->
-R CMD check of sads 0.6.5 gives the same result with this version as with
-0.4.2.1.
+One reverse dependency, sads. R CMD check of sads 0.6.5 gives the same result
+with this version as with 0.4.2.1 (Status: OK with both). Its maintainer has
+been informed.
